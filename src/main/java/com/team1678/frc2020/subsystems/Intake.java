@@ -13,8 +13,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.util.ArrayList;
-
 public class Intake extends Subsystem {
     private static double kIntakingVoltage = 9.0;
     private static double kIdleVoltage = 0;
