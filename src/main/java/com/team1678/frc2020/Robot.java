@@ -68,11 +68,11 @@ public class Robot extends TimedRobot {
 
     private final SubsystemManager mSubsystemManager = SubsystemManager.getInstance();
     private final Drive mDrive = Drive.getInstance();
-    private final Indexer mIndexer = Indexer.getInstance();
+    //private final Indexer mIndexer = Indexer.getInstance();
     private final Infrastructure mInfrastructure = Infrastructure.getInstance();
     private final Limelight mLimelight = Limelight.getInstance();
 
-    private final Intake mIntake = Intake.getInstance();
+    //private final Intake mIntake = Intake.getInstance();
     private final Superstructure mSuperstructure = Superstructure.getInstance();
     private final Turret mTurret = Turret.getInstance();
     private final Shooter mShooter = Shooter.getInstance();

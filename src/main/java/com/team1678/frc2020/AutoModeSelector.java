@@ -61,18 +61,6 @@ public class AutoModeSelector {
             return Optional.of(new CharacterizeDrivebaseMode(false, false));
         case TEST_PATH:
             return Optional.of(new TestPath());
-        //case TEN_BALL_AUTO:
-        //    return Optional.of(new TenBallMode());
-        case TEN_BALL_TRENCH_AUTO:
-            return Optional.of(new TenBallTrenchMode());
-        case LEFT_EIGHT_BALL_AUTO:
-            return Optional.of(new LeftEightBallMode());
-        case LEFT_NEAR_EIGHT_BALL_AUTO:
-            return Optional.of(new NearLeftEightBallMode());
-        case RIGHT_EIGHT_BALL_AUTO:
-            return Optional.of(new RightEightBallMode());
-        case RIGHT_NEAR_EIGHT_BALL_AUTO:
-            return Optional.of(new RightEightBallNearMode());
         default:
             break;
         }

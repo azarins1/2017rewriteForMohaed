@@ -237,7 +237,7 @@ public class Superstructure extends Subsystem {
     }
 
     public synchronized void updateCurrentState() {
-        mCurrentTurret = mTurret.getAngle();
+        //mCurrentTurret = mTurret.getAngle();
         mCurrentHood = mHood.getAngle();
     }
 
@@ -399,7 +399,7 @@ public class Superstructure extends Subsystem {
             mHood.setSetpointMotionMagic(mHoodSetpoint);
         }
 
-        Indexer.WantedAction indexerAction = Indexer.WantedAction.PASSIVE_INDEX;
+        //Indexer.WantedAction indexerAction = Indexer.WantedAction.PASSIVE_INDEX;
         double real_trigger = 0.0;
         double real_shooter = 0.0;
         boolean real_popout = false;
@@ -411,11 +411,11 @@ public class Superstructure extends Subsystem {
 
         if (mWantsSpinUp) {
             real_shooter = mShooterSetpoint;
-            indexerAction = Indexer.WantedAction.PASSIVE_INDEX;
+            //indexerAction = Indexer.WantedAction.PASSIVE_INDEX;
             real_trigger = -600.0;
         } else if (mWantsPreShot) {
             real_shooter = mShooterSetpoint;
-            indexerAction = Indexer.WantedAction.HELLA_ZOOM;
+            //indexerAction = Indexer.WantedAction.HELLA_ZOOM;
             real_trigger = Constants.kTriggerRPM;
             real_popout = false;
         } else if (mWantsShoot) {
@@ -423,12 +423,12 @@ public class Superstructure extends Subsystem {
 
             if (mLatestAimingParameters.isPresent()) {
                 if (mLatestAimingParameters.get().getRange() > 240.) {
-                    indexerAction = Indexer.WantedAction.SLOW_ZOOM;
+                    //indexerAction = Indexer.WantedAction.SLOW_ZOOM;
                 } else {
-                    indexerAction = Indexer.WantedAction.ZOOM;
+                    //indexerAction = Indexer.WantedAction.ZOOM;
                 }
             } else {
-                indexerAction = Indexer.WantedAction.ZOOM;
+                //indexerAction = Indexer.WantedAction.ZOOM;
             }
             real_trigger = Constants.kTriggerRPM;
 
@@ -443,19 +443,19 @@ public class Superstructure extends Subsystem {
 
         
         if (mWantsUnjam) {
-            indexerAction = Indexer.WantedAction.PREP;
+            //indexerAction = Indexer.WantedAction.PREP;
             real_popout = true;
             real_trigger = -5000;
         }
 
         if (mEnableIndexer) {
-            mIndexer.setState(indexerAction);
+            //mIndexer.setState(indexerAction);
         } else {
-            mIndexer.setState(Indexer.WantedAction.PREP);
+            //mIndexer.setState(Indexer.WantedAction.PREP);
         }
 
-        mTrigger.setPopoutSolenoid(real_popout);
-        mTrigger.setVelocity(real_trigger);
+        //mTrigger.setPopoutSolenoid(real_popout);
+        //mTrigger.setVelocity(real_trigger);
         if (Math.abs(real_shooter) < Util.kEpsilon) {
             mShooter.setOpenLoop(0);
         } else if (mWantsFendor) {

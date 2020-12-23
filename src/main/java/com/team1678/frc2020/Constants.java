@@ -193,6 +193,9 @@ public class Constants {
         kHoodConstants.kPeakCurrentDuration = 10; // milliseconds
         kHoodConstants.kMaxVoltage = 12.0;
     }
+    // climber
+    public static final int kClimberMasterId = 0; //change later
+
 
     public static final double kHoodRadius = 11.904; // radius of hood
 

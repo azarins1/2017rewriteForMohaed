@@ -1,3 +1,5 @@
+//The shooter includes the hood
+
 package com.team1678.frc2020.subsystems;
 
 import com.team1678.frc2020.Constants;
@@ -6,18 +8,21 @@ import com.team1678.frc2020.loops.Loop;
 import com.team1678.frc2020.logger.LogStorage;
 import com.team1678.frc2020.logger.LoggingSystem;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.team254.lib.drivers.TalonFXFactory;
+import com.team254.lib.drivers.TalonSRXFactory;
 import com.team254.lib.util.Util;
 
 import java.util.ArrayList;
@@ -27,18 +32,30 @@ public class Shooter extends Subsystem {
 
     private PeriodicIO mPeriodicIO = new PeriodicIO();
 
-    private final TalonFX mMaster;
-    private final TalonFX mSlave;
+    private final TalonSRX mMaster;
+    private final TalonSRX mSlave;
 
     private boolean mRunningManual = false;
+
+    public enum WantedAction {
+        // Wanted actions
+        NONE, CLIMB
+    }
+
+    private enum State {
+        // States
+        IDLE, SPINUP, APPROACHING, CLIMBING, AT_TOP
+    }
+
+    private State mState = State.IDLE;
 
     private static double kFlywheelVelocityConversion = 600.0 / 2048.0;
 
     private static double kShooterTolerance = 200.0;
 
     private Shooter() {
-        mMaster = TalonFXFactory.createDefaultTalon(Constants.kMasterFlywheelID);
-        mSlave = TalonFXFactory.createPermanentSlaveTalon(Constants.kSlaveFlywheelID, Constants.kMasterFlywheelID);
+        mMaster = TalonSRXFactory.createDefaultTalon(Constants.kMasterFlywheelID);
+        mSlave = TalonSRXFactory.createPermanentSlaveTalon(Constants.kSlaveFlywheelID, Constants.kMasterFlywheelID);
 
         mMaster.set(ControlMode.PercentOutput, 0);
         mMaster.setInverted(true); //TODO: check value
@@ -58,7 +75,7 @@ public class Shooter extends Subsystem {
         mSlave.setInverted(false); //TODO: check value
         
         mMaster.set(ControlMode.PercentOutput, 0);
-        mMaster.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, Constants.kLongCANTimeoutMs);
+        mMaster.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.IntegratedSensor, 0, Constants.kLongCANTimeoutMs);
 
         mMaster.configClosedloopRamp(0.2);
     }
@@ -92,9 +109,11 @@ public class Shooter extends Subsystem {
         enabledLooper.register(new Loop() {
             @Override
             public void onStart(double timestamp) {
+                mState =  State.IDLE;
             }
             @Override
             public void onLoop(double timestamp) {
+                //We don't have states
             }
             @Override
             public void onStop(double timestamp) {
